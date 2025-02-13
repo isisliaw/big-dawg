@@ -1,14 +1,18 @@
 import { Text, View, StyleSheet, Pressable } from 'react-native';
 import { useEffect, useState } from 'react';
 import { Dimensions } from 'react-native';
-import Svg, { Circle, Text as SvgText } from 'react-native-svg';
+import Svg, { Circle, G, Text as SvgText, TSpan } from 'react-native-svg';
 import Animated, { AnimatedProps, useAnimatedProps, useDerivedValue, useSharedValue, withTiming } from 'react-native-reanimated';
 import { ReText } from 'react-native-redash';
+import { BACKGROUND_COLOR, BUTTON_COLOR, BUTTON_TEXT } from '@/src/styles/themes/colors';
 
 const { width, height } = Dimensions.get("window");
 
 const CIRCLE_LENGTH = 400;
 const R = CIRCLE_LENGTH / (2 * Math.PI);
+
+const SVG_WIDTH = width / 2;
+const SVG_HEIGHT = height / 3;
 
 const AnimatedCircle = Animated.createAnimatedComponent(Circle);
 
@@ -33,33 +37,44 @@ export default function Index() {
         <Text style={styles.activityTitle}>Your Activity Today:</Text>
         
         <Text style={styles.progressLabel}>Workout completion:</Text>
-        
         <View style={styles.progressContainer}>
-          <Svg width={width} height={height / 3}>
-            <Circle
-              cx={width / 5}
-              cy={height / 10}
-              r={R}
-              fill="rgba(255, 255, 255, 0)"
-              stroke={'#3a0055'}
-              strokeWidth={8}
-            />
-            <AnimatedCircle
-              cx={width / 5}
-              cy={height / 10}
-              r={R}
-              stroke={'#ff00ff'}
-              fill="rgba(255, 255, 255, 0)"
-              strokeWidth={8}
-              strokeDasharray={CIRCLE_LENGTH}
-              strokeDashoffset={CIRCLE_LENGTH}
-              animatedProps={animatedProps}
-              strokeLinecap={'round'}
-            />
-            
-            <ReText style={styles.progressText} text={progressText} />
-            
-          </Svg>
+            <Svg width={SVG_WIDTH}
+              height={SVG_HEIGHT}
+              viewBox={`0 0 ${SVG_WIDTH} ${SVG_HEIGHT}`}>
+              <G>
+                <Circle
+                  cx={SVG_WIDTH / 2}
+                  cy={SVG_HEIGHT / 4}
+                  r={R}
+                  fill="rgba(255, 255, 255, 0)"
+                  stroke={'#3a0055'}
+                  strokeWidth={8}
+                />
+                <SvgText
+                  x={SVG_WIDTH / 2}
+                  y={SVG_HEIGHT / 4}
+                  textAnchor="middle"
+                  alignmentBaseline="central"
+                  fill="#ffffff"
+                  fontSize="30"
+                  fontWeight="bold"
+                >
+                  <ReText style={styles.progressText} text={progressText} />
+                </SvgText>
+                <AnimatedCircle
+                  cx={SVG_WIDTH / 2}
+                  cy={SVG_HEIGHT / 4}
+                  r={R}
+                  stroke={'#ff00ff'}
+                  fill="rgba(255, 255, 255, 0)"
+                  strokeWidth={8}
+                  strokeDasharray={CIRCLE_LENGTH}
+                  strokeDashoffset={CIRCLE_LENGTH}
+                  animatedProps={animatedProps}
+                  strokeLinecap={'round'}
+                />
+              </G>
+            </Svg>
         </View>
         
         <Text style={styles.noWorkouts}>No active workouts!</Text>
@@ -83,7 +98,7 @@ export default function Index() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#1a002e',
+    backgroundColor: BACKGROUND_COLOR,
   },
   content: {
     flex: 1,
@@ -119,14 +134,14 @@ const styles = StyleSheet.create({
     opacity: 0.8,
   },
   button: {
-    backgroundColor: '#e6d5ff',
+    backgroundColor: BUTTON_COLOR,
     padding: 15,
     borderRadius: 20,
     marginBottom: 10,
   },
   buttonText: {
     fontSize: 16,
-    color: '#4a0072',
+    color: BUTTON_TEXT,
     textAlign: 'center',
   },
 });
