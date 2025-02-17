@@ -11,4 +11,34 @@ export const styles = StyleSheet.create({
   text: {
     color: '#fff',
   },
+  button: {
+    backgroundColor: colors.BUTTON_COLOR,
+    padding: 15,
+    borderRadius: 20,
+    marginBottom: 10,
+    marginHorizontal: 5,
+  },
+  buttonText: {
+    fontSize: 16,
+    color: colors.BUTTON_TEXT,
+    textAlign: 'center',
+  },
+
+  // containers for the dual search function
+  searchContainer: {
+    flex: 1,
+    flexDirection: "row", // Puts FlatLists side by side
+  },
+  flatList: {
+    flex: 1, // Each FlatList takes half the screen
+    marginHorizontal: 10, // Optional spacing between the lists
+  },
+  searchItem: {
+    flex: 1,
+    padding: 10,
+    backgroundColor: colors.BUTTON_COLOR,
+    borderRadius: 20,
+    borderBottomColor: colors.BUTTON_COLOR,
+    color: colors.BUTTON_TEXT,
+  },
 });
