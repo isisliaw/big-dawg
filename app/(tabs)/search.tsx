@@ -2,11 +2,13 @@ import React, { useState } from 'react';
 import { Text, View, TextInput, FlatList, StyleSheet, Pressable } from 'react-native';
 import colors from '@/src/styles/themes/colors';
 import { styles } from '@/src/styles/globalStyles';
+import { useRouter } from 'expo-router';
 
 export default function SearchScreen() {
-    const [query, setQuery] = useState('');
-    const [filteredExercises, setFilteredExercises] = useState<string[]>(exercises);
-    const [filteredWorkouts, setFilteredWorkouts] = useState<string[]>(workouts);
+  const [query, setQuery] = useState('');
+  const [filteredExercises, setFilteredExercises] = useState<string[]>(exercises);
+  const [filteredWorkouts, setFilteredWorkouts] = useState<string[]>(workouts);
+  const router = useRouter();
 
   const handleSearch = (text: string) => {
     setQuery(text);
@@ -22,10 +24,10 @@ export default function SearchScreen() {
 
   return (
     <View style={styles.container}>
-      <Text style={localStyles.headerText}>Search for an exercise:</Text>
+      <Text style={styles.headerText}>Search for an exercise:</Text>
       
       <TextInput
-        style={localStyles.input}
+        style={styles.input}
         placeholder="Search..."
         value={query}
         onChangeText={handleSearch}
@@ -55,7 +57,7 @@ export default function SearchScreen() {
       <View style={localStyles.addButtonContainer}>
         <Pressable 
         style={localStyles.addButton}
-        onPress={() => alert('Event to add a new excercise')}>
+        onPress={() => router.push("/add-exercise")}>
             <Text style={localStyles.addButtonText}>Add a new exercise</Text>
         </Pressable>
 
@@ -73,25 +75,6 @@ const exercises = ['Bench Press', 'Chest Press', 'Incline Bench', 'Bicep Curl', 
 const workouts = ['Push', 'Pull', 'Legs', 'Full Body', 'Upper Body', 'Lower Body', 'Core'];
 
 const localStyles = StyleSheet.create({
-  input: {
-    height: 40,
-    width: '96%',
-    backgroundColor: colors.BUTTON_COLOR,
-    borderWidth: 1,
-    padding: 10,
-    marginBottom: 20,
-    color: colors.BUTTON_TEXT,
-    borderRadius: 10,
-  },
-  headerText: {
-    justifyContent: 'flex-start',
-    alignSelf: 'flex-start',
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: colors.WHITE,
-    padding: 10,
-    paddingLeft: 20,
-  },
   addButtonContainer: {
     flex: 0.2,
     flexDirection: 'row',

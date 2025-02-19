@@ -41,4 +41,25 @@ export const styles = StyleSheet.create({
     borderBottomColor: colors.BUTTON_COLOR,
     color: colors.BUTTON_TEXT,
   },
+  // text at the top of the page
+  headerText: {
+    justifyContent: 'flex-start',
+    alignSelf: 'flex-start',
+    fontSize: 24,
+    fontWeight: 'bold',
+    color: colors.WHITE,
+    padding: 10,
+    paddingLeft: 20,
+  },
+  // Search box input
+  input: {
+    height: 40,
+    width: '96%',
+    backgroundColor: colors.BUTTON_COLOR,
+    borderWidth: 1,
+    padding: 10,
+    marginBottom: 20,
+    color: colors.BUTTON_TEXT,
+    borderRadius: 10,
+  }, 
 });
