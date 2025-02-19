@@ -38,6 +38,11 @@ export default function TabLayout() {
           <Ionicons name={focused ? 'home-sharp' : 'home-outline'} color={color} size={24} />
         ),
       }} />
+      <Tabs.Screen name="search" options={{
+        tabBarIcon: ({ color, focused }) => (
+          <Ionicons name={focused ? 'search-sharp' : 'search-outline'} color={color} size={24} />
+        ),
+      }} />
       <Tabs.Screen name="calendar" options={{
         tabBarIcon: ({ color, focused }) => (
           <Ionicons name={focused ? 'calendar-sharp' : 'calendar-outline'} size={24} color={color} />
