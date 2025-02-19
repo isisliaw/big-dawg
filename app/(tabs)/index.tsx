@@ -4,7 +4,7 @@ import { Dimensions } from 'react-native';
 import Svg, { Circle, G, Text as SvgText, TSpan } from 'react-native-svg';
 import Animated, { AnimatedProps, useAnimatedProps, useDerivedValue, useSharedValue, withTiming } from 'react-native-reanimated';
 import { ReText } from 'react-native-redash';
-import { BACKGROUND_COLOR, BUTTON_COLOR, BUTTON_TEXT } from '@/src/styles/themes/colors';
+import colors from '@/src/styles/themes/colors';
 
 const { width, height } = Dimensions.get("window");
 
@@ -98,7 +98,7 @@ export default function Index() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: BACKGROUND_COLOR,
+    backgroundColor: colors.BACKGROUND_COLOR,
   },
   content: {
     flex: 1,
@@ -134,14 +134,14 @@ const styles = StyleSheet.create({
     opacity: 0.8,
   },
   button: {
-    backgroundColor: BUTTON_COLOR,
+    backgroundColor: colors.BUTTON_COLOR,
     padding: 15,
     borderRadius: 20,
     marginBottom: 10,
   },
   buttonText: {
     fontSize: 16,
-    color: BUTTON_TEXT,
+    color: colors.BUTTON_TEXT,
     textAlign: 'center',
   },
 });
