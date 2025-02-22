@@ -30,6 +30,11 @@ export default function SearchScreen() {
     setFilteredWorkouts(filteredWorkouts);
   };
 
+  // handle when someone presses a workout
+  const handleExercisePress = (exercise: string) => {
+    alert(`Selected exercise: ${exercise}`);
+  };
+
   return (
     <View style={styles.container}>
       <Text style={styles.headerText}>Search for an exercise:</Text>
@@ -44,25 +49,16 @@ export default function SearchScreen() {
       <View style={styles.searchContainer}>
         {/* List of exercises */}
         <FlatList
-          data={filteredExercises}
-          keyExtractor={(item, index) => index.toString()}
-          renderItem={({ item }) => (
-            <Text style={styles.searchItem}>{item}</Text>
-          )}
-          contentContainerStyle={{ gap: 10 }}
-          style={styles.flatList}
-          ListHeaderComponent={<Text style={styles.text}>Exercises</Text>}
-        />
-        {/* List of workouts */}
-        <FlatList
-          data={filteredWorkouts}
-          keyExtractor={(item, index) => index.toString()}
-          renderItem={({ item }) => (
-            <Text style={styles.searchItem}>{item}</Text>
-          )}
-          contentContainerStyle={{ gap: 10 }}
-          style={styles.flatList}
-          ListHeaderComponent={<Text style={styles.text}>Workouts</Text>}
+            data={filteredExercises}
+            keyExtractor={(item, index) => index.toString()}
+            renderItem={({ item }) => (
+              <Pressable style={styles.button} onPress={() => handleExercisePress(item)}>
+                <Text style={styles.buttonText}>{item}</Text>
+              </Pressable>
+            )}
+            contentContainerStyle={{ gap: 10 }}
+            style={styles.flatList}
+            ListHeaderComponent={<Text style={localStyles.subHeaderText}>Exercises</Text>}
         />
       </View>
 
@@ -72,13 +68,6 @@ export default function SearchScreen() {
           onPress={() => router.push("/add-exercise")}
         >
           <Text style={localStyles.addButtonText}>Add a new exercise</Text>
-        </Pressable>
-
-        <Pressable
-          style={localStyles.addButton}
-          onPress={() => router.push("/AddWorkout")}
-        >
-          <Text style={localStyles.addButtonText}>Add a new workout</Text>
         </Pressable>
       </View>
     </View>
@@ -106,10 +95,12 @@ const workouts = [
 
 const localStyles = StyleSheet.create({
   addButtonContainer: {
-    flex: 0.2,
-    flexDirection: "row",
-    justifyContent: "space-evenly",
-    bottom: "14%",
+    flex: 0.15,
+    flexDirection: 'row',
+    justifyContent: 'space-evenly',
+    bottom: '14%',
+    padding: 10,
+    backgroundColor: colors.BACKGROUND_COLOR,
   },
   addButton: {
     flex: 1,
@@ -124,5 +115,10 @@ const localStyles = StyleSheet.create({
     fontWeight: "bold",
     color: colors.BUTTON_TEXT,
     textAlign: "center",
+  },
+  subHeaderText: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: colors.WHITE,
   },
 });

@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
-import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, Text, TextInput, StyleSheet, Pressable } from 'react-native';
 import colors from '@/src/styles/themes/colors';
 import { styles } from '@/src/styles/globalStyles';
 import { useRouter } from 'expo-router';
+import { useSharedValue, useAnimatedStyle, withTiming } from "react-native-reanimated";
 
 const AddExercise = () => {
     const [exerciseName, setExerciseName] = useState('');
@@ -10,8 +11,16 @@ const AddExercise = () => {
     const [muscleGroup, setMuscleGroup] = useState('');
 
     const handleAddExercise = () => {
+        if(!exerciseName || !muscleGroup) {
+            alert('Please enter an exercise name and muscle group.');
+            return;
+        }
         // Add logic to handle adding the exercise
-        console.log('Exercise Added:', { exerciseName, description });
+        console.log('Exercise Added:', { exerciseName, muscleGroup, description });
+        setExerciseName("");
+        setMuscleGroup("");
+        setDescription("");
+        alert('Exercise Added!');
     };
 
     return (
@@ -39,7 +48,11 @@ const AddExercise = () => {
                 value={description}
                 onChangeText={setDescription}
             />
-            <Button title="Add Exercise" onPress={handleAddExercise} />
+            <Pressable 
+              style={styles.button} 
+              onPress={handleAddExercise}>
+                <Text style={styles.buttonText}>Add New Exercise</Text>
+            </Pressable>
           </View>
         </View>
     );
