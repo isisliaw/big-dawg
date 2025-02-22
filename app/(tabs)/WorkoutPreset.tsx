@@ -7,11 +7,7 @@ import {
   FlatList,
   StyleSheet,
 } from "react-native";
-import {
-  BACKGROUND_COLOR,
-  BUTTON_COLOR,
-  BUTTON_TEXT,
-} from "@/src/styles/themes/colors";
+import colors from '@/src/styles/themes/colors';
 
 const WorkoutPreset = () => {
   // State to hold the current search query input by the user.
@@ -164,24 +160,24 @@ const WorkoutPreset = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: BACKGROUND_COLOR,
+    backgroundColor: colors.BACKGROUND_COLOR,
     padding: 20,
   },
   backButton: {
     marginTop: 8,
     paddingVertical: 6,
     paddingHorizontal: 12,
-    backgroundColor: BUTTON_COLOR,
+    backgroundColor: colors.BUTTON_COLOR,
     borderRadius: 8,
     alignSelf: "flex-start",
   },
   backButtonText: {
-    color: BUTTON_TEXT,
+    color: colors.BUTTON_TEXT,
     fontSize: 14,
     fontWeight: "bold",
   },
   title: {
-    color: "white",
+    color: colors.WHITE,
     fontSize: 16,
     fontWeight: "bold",
     marginTop: 15,
@@ -190,7 +186,7 @@ const styles = StyleSheet.create({
     marginTop: 12,
   },
   searchInput: {
-    backgroundColor: "white",
+    backgroundColor: colors.WHITE,
     paddingVertical: 8,
     paddingHorizontal: 10,
     borderRadius: 8,
@@ -203,12 +199,12 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   filter: {
-    backgroundColor: BUTTON_COLOR,
+    backgroundColor: colors.BUTTON_COLOR,
     paddingVertical: 5,
     paddingHorizontal: 10,
     borderRadius: 6,
     marginRight: 6,
-    color: BUTTON_TEXT,
+    color: colors.BUTTON_TEXT,
     fontSize: 12,
     fontWeight: "bold",
   },
@@ -218,7 +214,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   filterInput: {
-    backgroundColor: "white",
+    backgroundColor: colors.WHITE,
     paddingVertical: 6,
     paddingHorizontal: 8,
     borderRadius: 6,
@@ -227,12 +223,12 @@ const styles = StyleSheet.create({
   },
   addFilterButton: {
     marginLeft: 8,
-    backgroundColor: BUTTON_COLOR,
+    backgroundColor: colors.BUTTON_COLOR,
     padding: 8,
     borderRadius: 6,
   },
   addFilterText: {
-    color: BUTTON_TEXT,
+    color: colors.BUTTON_TEXT,
     fontSize: 16,
     fontWeight: "bold",
   },
@@ -243,26 +239,26 @@ const styles = StyleSheet.create({
     borderRadius: 6,
   },
   cancelFilterText: {
-    color: "white",
+    color: colors.WHITE,
     fontSize: 16,
     fontWeight: "bold",
   },
   presetItem: {
     marginTop: 10,
-    backgroundColor: BUTTON_COLOR,
+    backgroundColor: colors.BUTTON_COLOR,
     padding: 12,
     borderRadius: 8,
     alignItems: "center",
   },
   presetText: {
-    color: BUTTON_TEXT,
+    color: colors.BUTTON_TEXT,
     fontSize: 13,
     fontStyle: "italic",
     fontWeight: "500",
   },
   createButton: {
     marginTop: 20,
-    backgroundColor: BUTTON_COLOR,
+    backgroundColor: colors.BUTTON_COLOR,
     paddingVertical: 12,
     borderRadius: 10,
     alignItems: "center",
@@ -272,7 +268,7 @@ const styles = StyleSheet.create({
     bottom: 60,
   },
   createButtonText: {
-    color: BUTTON_TEXT,
+    color: colors.BUTTON_TEXT,
     fontSize: 16,
     fontWeight: "bold",
   },
