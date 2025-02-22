@@ -2,8 +2,10 @@ import { Tabs } from "expo-router";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { View, Text, StyleSheet } from "react-native";
 import { Image } from "expo-image";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 const logo = require("@/assets/images/logo.png");
+const Stack = createNativeStackNavigator();
 
 export default function TabLayout() {
   return (
@@ -52,6 +54,9 @@ export default function TabLayout() {
         tabBarIcon: ({ color, focused }) => (
           <Ionicons name={focused ? "fitness-sharp" : "fitness-outline"} size={24} color={color} />
           ),
+      }} />
+      <Tabs.Screen name="add-exercise" options={{
+        href: null,
       }} />
     </Tabs>
   );
