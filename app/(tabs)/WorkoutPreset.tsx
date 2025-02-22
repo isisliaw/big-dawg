@@ -177,7 +177,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   title: {
-    color: "white",
+    color: colors.WHITE,
     fontSize: 16,
     fontWeight: "bold",
     marginTop: 15,
@@ -186,7 +186,7 @@ const styles = StyleSheet.create({
     marginTop: 12,
   },
   searchInput: {
-    backgroundColor: "white",
+    backgroundColor: colors.WHITE,
     paddingVertical: 8,
     paddingHorizontal: 10,
     borderRadius: 8,
@@ -214,7 +214,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   filterInput: {
-    backgroundColor: "white",
+    backgroundColor: colors.WHITE,
     paddingVertical: 6,
     paddingHorizontal: 8,
     borderRadius: 6,
@@ -239,7 +239,7 @@ const styles = StyleSheet.create({
     borderRadius: 6,
   },
   cancelFilterText: {
-    color: "white",
+    color: colors.WHITE,
     fontSize: 16,
     fontWeight: "bold",
   },
