@@ -7,7 +7,7 @@ import {
   FlatList,
   StyleSheet,
 } from "react-native";
-import colors from "@/src/styles/themes/colors";
+import colors from '@/src/styles/themes/colors';
 
 const WorkoutPreset = () => {
   // State to hold the current search query input by the user.
@@ -204,6 +204,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     borderRadius: 6,
     marginRight: 6,
+    color: colors.BUTTON_TEXT,
     fontSize: 12,
     fontWeight: "bold",
   },
