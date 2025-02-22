@@ -106,6 +106,12 @@ export default function TabLayout() {
               title: 'Presets'
             }}
           />
+          <Tabs.Screen
+            name='add-exercise'
+            options={{
+              href: null,
+            }}
+          />
         </Tabs>
   
         {/* Dropdown Menu Modal */}
