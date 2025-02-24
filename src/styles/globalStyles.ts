@@ -91,4 +91,9 @@ export const styles = StyleSheet.create({
     color: colors.BUTTON_TEXT,
     marginLeft: 12,
   },
+  subHeaderText: {
+    fontSize: 16,
+    fontWeight: "bold",
+    color: colors.WHITE,
+  },
 });
