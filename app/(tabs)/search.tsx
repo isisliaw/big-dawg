@@ -25,7 +25,10 @@ export default function SearchScreen() {
 
   // handle when someone presses a workout
   const handleExercisePress = (exercise: string) => {
-    alert(`Selected exercise: ${exercise}`);
+    router.push({
+      pathname: '/(tabs)/(exercises)/add-exercise', 
+      params: { exerciseName: exercise },
+    });
   };
 
   return (
@@ -58,7 +61,7 @@ export default function SearchScreen() {
       <View style={localStyles.addButtonContainer}>
         <Pressable
           style={localStyles.addButton}
-          onPress={() => router.push("/new-exercise")}
+          onPress={() => router.push('/(tabs)/(exercises)/new-exercise')}
         >
           <Text style={localStyles.addButtonText}>Add a new exercise</Text>
         </Pressable>

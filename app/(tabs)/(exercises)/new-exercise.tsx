@@ -6,6 +6,7 @@ import { useRouter } from 'expo-router';
 import { useSharedValue, useAnimatedStyle, withTiming } from "react-native-reanimated";
 
 const AddExercise = () => {
+    const router = useRouter();
     const [exerciseName, setExerciseName] = useState('');
     const [description, setDescription] = useState('');
     const [muscleGroup, setMuscleGroup] = useState('');
@@ -19,15 +20,16 @@ const AddExercise = () => {
         console.log('Exercise Added:', { exerciseName, muscleGroup, description });
         setExerciseName("");
         setMuscleGroup("");
-        setDescription("");
+        setDescription("")
         alert('Exercise Added!');
+        router.replace('../search');
     };
 
     return (
         <View style={[styles.container, {justifyContent: 'flex-start'}]}>
-          <Text style={styles.headerText}>Add Exercise</Text>
+          <Text style={styles.headerText}>New Exercise</Text>
           <View style={localStyles.addContainer}>
-          <Text style={styles.text}>Name</Text>
+            <Text style={styles.text}>Name</Text>
             <TextInput
                 style={styles.input}
                 placeholder="Exercise Name"
@@ -54,6 +56,11 @@ const AddExercise = () => {
                 <Text style={styles.buttonText}>Add New Exercise</Text>
             </Pressable>
           </View>
+          <Pressable 
+              style={[styles.button, {margin: 20}]} 
+              onPress={() => router.replace('../search')}>
+                <Text style={styles.buttonText}>Back</Text>
+          </Pressable>
         </View>
     );
 };

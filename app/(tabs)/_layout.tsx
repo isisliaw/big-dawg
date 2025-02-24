@@ -7,6 +7,7 @@ import colors from '@/src/styles/themes/colors';
 import { useNavigation } from '@react-navigation/native';
 import { RootStackParamList } from '@/app/types';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { styles } from "@/src/styles/globalStyles";
 
 const logo = require("@/assets/images/logo.png");
 
@@ -81,7 +82,7 @@ export default function TabLayout() {
             name="plus"
             options={{
               tabBarButton: () => (
-                <Pressable style={styles.plusButton} onPress={doPlusClick}>
+                <Pressable style={localStyles.plusButton} onPress={doPlusClick}>
                   <Ionicons name="add-circle" size={50} color="#5f067d" />
                 </Pressable>
               ),
@@ -107,7 +108,13 @@ export default function TabLayout() {
             }}
           />
           <Tabs.Screen
-            name='new-exercise'
+            name='(exercises)/new-exercise'
+            options={{
+              href: null,
+            }}
+          />
+          <Tabs.Screen
+            name='(exercises)/add-exercise'
             options={{
               href: null,
             }}
@@ -116,22 +123,22 @@ export default function TabLayout() {
   
         {/* Dropdown Menu Modal */}
         <Modal visible={isModalVisible} transparent animationType="fade">
-          <View style={styles.modalOverlay}>
-            <View style={styles.modalContent}>
+          <View style={localStyles.modalOverlay}>
+            <View style={localStyles.modalContent}>
               {/* Dropdown Buttons */}
-              <Pressable style={styles.modalButton} onPress={() => navigateTo('WorkoutPreset')}>
-                <Text style={styles.modalButtonText}>+ Choose workout preset</Text>
+              <Pressable style={localStyles.modalButton} onPress={() => navigateTo('WorkoutPreset')}>
+                <Text style={localStyles.modalButtonText}>+ Choose workout preset</Text>
               </Pressable>
-              <Pressable style={styles.modalButton} onPress={() => console.log("New exercise")}>
-                <Text style={styles.modalButtonText}>+ New exercise</Text>
+              <Pressable style={localStyles.modalButton} onPress={() => console.log("New exercise")}>
+                <Text style={localStyles.modalButtonText}>+ New exercise</Text>
               </Pressable>
-              <Pressable style={styles.modalButton} onPress={() => console.log("New timer")}>
-                <Text style={styles.modalButtonText}>+ New timer</Text>
+              <Pressable style={localStyles.modalButton} onPress={() => console.log("New timer")}>
+                <Text style={localStyles.modalButtonText}>+ New timer</Text>
               </Pressable>
   
               {/* Close Button */}
-              <Pressable style={[styles.modalButton, styles.closeButton]} onPress={closeModal}>
-                <Text style={[styles.modalButtonText, styles.closeButtonText]}>Close</Text>
+              <Pressable style={[localStyles.modalButton, localStyles.closeButton]} onPress={closeModal}>
+                <Text style={[localStyles.modalButtonText, localStyles.closeButtonText]}>Close</Text>
               </Pressable>
             </View>
           </View>
@@ -140,34 +147,7 @@ export default function TabLayout() {
       );
   }
 
-const styles = StyleSheet.create({
-  headerContainer: {
-    backgroundColor: "#1a002e",
-  },
-  header: {
-    backgroundColor: "#e6d5ff",
-    paddingTop: 60,
-    paddingBottom: 15,
-    borderBottomLeftRadius: 20,
-    borderBottomRightRadius: 20,
-  },
-  headerContent: {
-    flexDirection: "row",
-    alignItems: "center",
-    paddingHorizontal: 20,
-    height: 50,
-  },
-  logo: {
-    width: 45,
-    height: 45,
-    resizeMode: "contain",
-  },
-  headerTitle: {
-    fontSize: 24,
-    fontWeight: "bold",
-    color: "#4a0072",
-    marginLeft: 12,
-  },
+const localStyles = StyleSheet.create({
   plusButton: {
     position: "absolute",
     bottom: -10,
