@@ -107,7 +107,7 @@ export default function TabLayout() {
             }}
           />
           <Tabs.Screen
-            name='add-exercise'
+            name='new-exercise'
             options={{
               href: null,
             }}

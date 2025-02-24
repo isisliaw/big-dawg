@@ -1,12 +1,5 @@
 import React, { useState } from "react";
-import {
-  Text,
-  View,
-  TextInput,
-  FlatList,
-  StyleSheet,
-  Pressable,
-} from "react-native";
+import { Text, View, TextInput, FlatList, StyleSheet, Pressable, } from "react-native";
 import colors from "@/src/styles/themes/colors";
 import { styles } from "@/src/styles/globalStyles";
 import { useRouter } from "expo-router";
@@ -52,7 +45,7 @@ export default function SearchScreen() {
             data={filteredExercises}
             keyExtractor={(item, index) => index.toString()}
             renderItem={({ item }) => (
-              <Pressable style={styles.button} onPress={() => handleExercisePress(item)}>
+              <Pressable style={[styles.button, {marginBottom: 0}]} onPress={() => handleExercisePress(item)}>
                 <Text style={styles.buttonText}>{item}</Text>
               </Pressable>
             )}
@@ -65,7 +58,7 @@ export default function SearchScreen() {
       <View style={localStyles.addButtonContainer}>
         <Pressable
           style={localStyles.addButton}
-          onPress={() => router.push("/add-exercise")}
+          onPress={() => router.push("/new-exercise")}
         >
           <Text style={localStyles.addButtonText}>Add a new exercise</Text>
         </Pressable>
@@ -98,7 +91,7 @@ const localStyles = StyleSheet.create({
     flex: 0.15,
     flexDirection: 'row',
     justifyContent: 'space-evenly',
-    bottom: '14%',
+    bottom: '12%',
     padding: 10,
     backgroundColor: colors.BACKGROUND_COLOR,
   },
