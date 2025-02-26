@@ -1,66 +1,85 @@
 import { useRouter, useLocalSearchParams } from 'expo-router';
-import { View, Text, Pressable, StyleSheet, TextInput } from 'react-native';
+import { View, Text, TouchableOpacity, ScrollView, StyleSheet, TextInput } from 'react-native';
 import { styles } from '@/src/styles/globalStyles';
 import colors from '@/src/styles/themes/colors';
 import { useState } from 'react';
 
-export default function AddExerciseModal() {
-  const router = useRouter();
-  const { exerciseName } = useLocalSearchParams<{ exerciseName?: string }>();
-  const [repAmount, setReps] = useState('');
-  const [weight, setWeight] = useState('');
-  const sets = 1;
+const WorkoutInput = () => {
+  type SetField = 'reps' | 'weight';
+  const [sets, setSets] = useState([{ id: 1, reps: "", weight: "", key:""}]); // Initial set
 
-  const handleTextChange = (text: string, field: 'reps' | 'weight') => {
-    const numericValue = text.replace(/[^0-9]/g, '');
-  
-    if (field === 'reps') {
-      setReps(numericValue);
-    } else if (field === 'weight') {
-      setWeight(numericValue);
-    }
+  // Function to handle input changes
+  const handleInputChange = (text: string, index: number, field: string, key: string) => {
+    const newSets = [...sets];
+    newSets[index][field as SetField] = text.replace(/[^0-9]/g, ""); // Only allow numbers
+    setSets(newSets);
+  };
+
+  // Function to add a new set
+  const addSet = () => {
+    setSets([...sets, { id: sets.length + 1, reps: "", weight: "", key: `${sets.length + 1}-${Date.now()}`}]);
+  };
+
+  // Function to remove a set
+  const removeSet = (index: number) => {
+    const newSets = sets.filter((_, i) => i !== index);
+    setSets(newSets);
   };
 
   return (
-    <View style={localStyles.container}>
-      <Text style={[styles.headerText, {}]}>Add Exercise: {exerciseName || "No exercise selected"}</Text>
-      <Text style={styles.subHeaderText}>Set {sets}</Text>
-        <View style={localStyles.setContainer}>
-          <View style={localStyles.subSetContainer}>
-          <Text style={styles.subHeaderText}>Reps</Text>
+    <View style = {localStyles.container}>
+      <ScrollView>
+        <Text style={styles.headerText}>Workout Tracker</Text>
+
+        {sets.map((set, index) => (
+          <View key={set.key} style={styles.container}>
+            <Text style={styles.headerText}>Set {index + 1}</Text>
+
+            {/* Reps Input */}
             <TextInput
-                style={styles.input}
-                placeholder="Reps"
-                value={repAmount}
-                onChangeText={(text) => handleTextChange(text, 'reps')}
-                keyboardType='numeric'
+              style={styles.input}
+              placeholder="Reps"
+              value={set.reps}
+              keyboardType="numeric"
+              onChangeText={(text) => handleInputChange(text, index, "reps", set.key)}
             />
-          </View>
-          <View style={localStyles.subSetContainer}>
-          <Text style={styles.subHeaderText}>Weight</Text>
+
+            {/* Weight Input */}
             <TextInput
-                style={styles.input}
-                placeholder="Weight (lbs)"
-                value={weight}
-                onChangeText={(text) => handleTextChange(text, 'weight')}
-                keyboardType='numeric'
+              style={styles.input}
+              placeholder="Weight (lbs/kg)"
+              value={set.weight}
+              keyboardType="numeric"
+              onChangeText={(text) => handleInputChange(text, index, "weight", set.key)}
             />
+
+            {/* Remove Button (Only show if there's more than one set) */}
+            {sets.length > 1 && (
+              <TouchableOpacity style={styles.button} onPress={() => removeSet(index)}>
+                <Text style={styles.buttonText}>Remove Set</Text>
+              </TouchableOpacity>
+            )}
           </View>
-        </View>
-      <Pressable style={[styles.button, {width: '90%',}]} onPress={() => router.replace('../search')}>
-        <Text style={styles.buttonText}>Back to Search</Text>
-      </Pressable>
+        ))}
+
+        {/* Add Set Button */}
+        <TouchableOpacity style={styles.button} onPress={addSet}>
+          <Text style={styles.buttonText}>➕ Add Another Set</Text>
+        </TouchableOpacity>
+      </ScrollView>
     </View>
   );
-}
+};
+
+export default WorkoutInput;
 
 const localStyles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: colors.BACKGROUND_COLOR,
-    paddingTop: 20,
     justifyContent: 'flex-start',
-    alignItems: 'center',
+    alignItems: 'stretch',
+    paddingBottom: '20%',
   },
   setContainer: {
     flexDirection: 'row',

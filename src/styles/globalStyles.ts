@@ -96,4 +96,12 @@ export const styles = StyleSheet.create({
     fontWeight: "bold",
     color: colors.WHITE,
   },
+
+  // BACK BUTTON CONTAINER
+  backContainer: {
+    backgroundColor: colors.BACKGROUND_COLOR,
+    flex: 0.3,
+    justifyContent: 'flex-start',
+    alignItems: 'flex-end',
+  }
 });
