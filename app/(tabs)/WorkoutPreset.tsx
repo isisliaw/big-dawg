@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useRouter } from "expo-router";
 import {
   View,
   Text,
@@ -7,150 +8,131 @@ import {
   FlatList,
   StyleSheet,
 } from "react-native";
-import colors from '@/src/styles/themes/colors';
+import { useSafeAreaInsets } from "react-native-safe-area-context";
+import colors from "@/src/styles/themes/colors";
 
 const WorkoutPreset = () => {
-  // State to hold the current search query input by the user.
+  const insets = useSafeAreaInsets(); // Get safe area insets
+  const router = useRouter();
   const [searchQuery, setSearchQuery] = useState("");
-
-  // State to hold an array of workout presets.
-  // Initially populated with one preset.
-  const [presets, setPresets] = useState([{ id: "1", name: "Arm Day 1" }]);
-
-  // State to hold the current filter tags.
-  // Initially set with "muscle" and "equipment".
+  const [presets] = useState([
+    { id: "1", name: "Arm Day 1" },
+    { id: "2", name: "Leg Day 1" },
+    { id: "3", name: "Cardio Burn" },
+    { id: "4", name: "Full Body Strength" },
+    { id: "5", name: "Core Crusher" },
+    { id: "6", name: "Back & Biceps" },
+  ]); // Added more workouts for testing search
   const [filters, setFilters] = useState(["muscle", "equipment"]);
-
-  // State to hold the new filter being added.
   const [newFilter, setNewFilter] = useState("");
-
-  // State to control the visibility of the "add filter" input field.
   const [isAddingFilter, setIsAddingFilter] = useState(false);
 
-  /**
-   * Function to add a new filter.
-   * - Trims the new filter input.
-   * - Checks if it is not empty and does not already exist in the filters array.
-   * - If valid, adds the filter to the list, resets the newFilter input,
-   *   and hides the add filter input field.
-   */
+  // Filter workouts based on the search query
+  const filteredPresets = presets.filter((workout) =>
+    workout.name.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
   const addFilter = () => {
     if (newFilter.trim() !== "" && !filters.includes(newFilter)) {
       setFilters([...filters, newFilter.trim()]);
       setNewFilter("");
-      setIsAddingFilter(false); // Hide input field after adding filter
+      setIsAddingFilter(false);
     }
   };
 
-  /**
-   * Function to remove a filter from the list.
-   * @param {string} filter - The filter to be removed.
-   * - Filters out the selected filter from the current filters array.
-   * - Updates the filters state with the new array.
-   * - If no filters remain, ensures the add filter button is shown.
-   */
   const removeFilter = (filter: string) => {
-    const updatedFilters = filters.filter((f) => f !== filter);
-    setFilters(updatedFilters);
-    if (updatedFilters.length === 0) {
-      setIsAddingFilter(false); // Show Add Filter button when all filters are removed
+    setFilters(filters.filter((f) => f !== filter));
+    if (filters.length === 0) {
+      setIsAddingFilter(false);
     }
   };
 
   return (
     <View style={styles.container}>
-      {/* Back Button */}
-      <TouchableOpacity style={styles.backButton}>
-        <Text style={styles.backButtonText}> &lt; Back </Text>
-      </TouchableOpacity>
-
-      {/* Title */}
-      <Text style={styles.title}>Select a workout plan:</Text>
-
-      {/* Search Bar & Filters */}
-      <View style={styles.searchContainer}>
-        {/* Search Input */}
-        <TextInput
-          style={styles.searchInput}
-          placeholder="Search by name"
-          placeholderTextColor="#aaa"
-          value={searchQuery}
-          onChangeText={setSearchQuery} // Update search query state on change
-        />
-        <View style={styles.filters}>
-          {/* If there are existing filters, display them */}
-          {filters.length > 0 ? (
-            <>
-              {filters.map((filter) => (
-                // Each filter is rendered as a button that can be tapped to remove it
-                <TouchableOpacity
-                  key={filter}
-                  style={styles.filter}
-                  onPress={() => removeFilter(filter)} // Remove filter on press
-                >
-                  <Text>{filter} ✕</Text>
-                </TouchableOpacity>
-              ))}
-              {/* Button to show the input for adding a new filter */}
-              <TouchableOpacity
-                onPress={() => setIsAddingFilter(true)}
-                style={styles.addFilterButton}
-              >
-                <Text style={styles.addFilterText}>+</Text>
-              </TouchableOpacity>
-            </>
-          ) : (
-            // If no filters exist, prompt user to add a filter
-            <TouchableOpacity
-              onPress={() => setIsAddingFilter(true)}
-              style={styles.addFilterButton}
-            >
-              <Text style={styles.addFilterText}>Add Filter</Text>
-            </TouchableOpacity>
-          )}
-        </View>
-        {/* If the user is adding a filter, display the input field with confirm and cancel buttons */}
-        {isAddingFilter && (
-          <View style={styles.addFilterContainer}>
-            <TextInput
-              style={styles.filterInput}
-              placeholder="Add filter"
-              placeholderTextColor="#aaa"
-              value={newFilter}
-              onChangeText={setNewFilter} // Update newFilter state on change
-            />
-            {/* Confirm button: Calls addFilter to add the new filter */}
-            <TouchableOpacity
-              onPress={addFilter}
-              style={styles.addFilterButton}
-            >
-              <Text style={styles.addFilterText}>✔</Text>
-            </TouchableOpacity>
-            {/* Cancel button: Hides the add filter input without adding */}
-            <TouchableOpacity
-              onPress={() => setIsAddingFilter(false)}
-              style={styles.cancelFilterButton}
-            >
-              <Text style={styles.cancelFilterText}>✕</Text>
-            </TouchableOpacity>
-          </View>
-        )}
-      </View>
-
-      {/* Workout Preset List */}
       <FlatList
-        data={presets} // Data source for the list
-        keyExtractor={(item) => item.id} // Unique key for each preset item
+        data={filteredPresets} // Use filtered list
+        keyExtractor={(item) => item.id}
+        keyboardShouldPersistTaps="handled"
+        ListHeaderComponent={
+          <>
+            {/* Back Button */}
+            <TouchableOpacity style={styles.backButton}>
+              <Text style={styles.backButtonText}> &lt; Back </Text>
+            </TouchableOpacity>
+
+            {/* Title */}
+            <Text style={styles.title}>Select a workout plan:</Text>
+
+            {/* Search Bar & Filters */}
+            <View style={styles.searchContainer}>
+              <TextInput
+                style={styles.searchInput}
+                placeholder="Search by name"
+                placeholderTextColor="#aaa"
+                value={searchQuery}
+                onChangeText={setSearchQuery} // Updates search query state
+              />
+              <View style={styles.filters}>
+                {filters.map((filter) => (
+                  <TouchableOpacity
+                    key={filter}
+                    style={styles.filter}
+                    onPress={() => removeFilter(filter)}
+                  >
+                    <Text>{filter} ✕</Text>
+                  </TouchableOpacity>
+                ))}
+                <TouchableOpacity
+                  onPress={() => setIsAddingFilter(true)}
+                  style={styles.addFilterButton}
+                >
+                  <Text style={styles.addFilterText}>+</Text>
+                </TouchableOpacity>
+              </View>
+
+              {isAddingFilter && (
+                <View style={styles.addFilterContainer}>
+                  <TextInput
+                    style={styles.filterInput}
+                    placeholder="Add filter"
+                    placeholderTextColor="#aaa"
+                    value={newFilter}
+                    onChangeText={setNewFilter}
+                  />
+                  <TouchableOpacity
+                    onPress={addFilter}
+                    style={styles.addFilterButton}
+                  >
+                    <Text style={styles.addFilterText}>✔</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    onPress={() => setIsAddingFilter(false)}
+                    style={styles.cancelFilterButton}
+                  >
+                    <Text style={styles.cancelFilterText}>✕</Text>
+                  </TouchableOpacity>
+                </View>
+              )}
+            </View>
+          </>
+        }
         renderItem={({ item }) => (
-          // Render each preset as a touchable item
           <TouchableOpacity style={styles.presetItem}>
             <Text style={styles.presetText}>{item.name}</Text>
           </TouchableOpacity>
         )}
+        ListEmptyComponent={
+          searchQuery ? (
+            <Text style={styles.noResultsText}>No workouts found.</Text>
+          ) : null
+        }
       />
 
-      {/* Create New Workout Button */}
-      <TouchableOpacity style={styles.createButton}>
+      {/* Create New Workout Button (positioned above bottom tab) */}
+      <TouchableOpacity
+        style={[styles.createButton, { bottom: insets.bottom + 60 }]}
+        onPress={() => router.push("/AddWorkout")}
+      >
         <Text style={styles.createButtonText}>Create New Workout</Text>
       </TouchableOpacity>
     </View>
@@ -256,8 +238,13 @@ const styles = StyleSheet.create({
     fontStyle: "italic",
     fontWeight: "500",
   },
-  createButton: {
+  noResultsText: {
+    color: colors.WHITE,
+    fontSize: 14,
+    textAlign: "center",
     marginTop: 20,
+  },
+  createButton: {
     backgroundColor: colors.BUTTON_COLOR,
     paddingVertical: 12,
     borderRadius: 10,
@@ -265,7 +252,6 @@ const styles = StyleSheet.create({
     position: "absolute",
     left: 20,
     right: 20,
-    bottom: 60,
   },
   createButtonText: {
     color: colors.BUTTON_TEXT,

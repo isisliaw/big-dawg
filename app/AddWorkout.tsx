@@ -3,27 +3,64 @@ import {
   Text,
   View,
   TextInput,
-  Pressable,
+  TouchableOpacity,
   StyleSheet,
   ScrollView,
+  Alert,
 } from "react-native";
 import { useRouter } from "expo-router";
 import colors from "@/src/styles/themes/colors";
-import { styles } from "@/src/styles/globalStyles";
 
 export default function AddWorkoutScreen() {
   const router = useRouter();
+
+  // Workout Data
   const [workoutName, setWorkoutName] = useState("");
   const [selectedDays, setSelectedDays] = useState<string[]>([]);
+  const [exercises, setExercises] = useState<
+    { Exercise_Name: string; Weight: number; Reps: number; Comment: string }[]
+  >([]);
+  const [workoutComment, setWorkoutComment] = useState("");
 
   const daysOfWeek = ["S", "M", "T", "W", "Th", "F", "Sa"];
 
+  // Toggle days for repetition
   const toggleDay = (day: string) => {
     setSelectedDays((prevDays) => {
       return prevDays.includes(day)
         ? prevDays.filter((d) => d !== day)
         : [...prevDays, day];
     });
+  };
+
+  // Function to handle adding a new exercise from search
+  const addExercise = () => {
+    router.push("/search");
+  };
+
+  // Function to save workout
+  const saveWorkout = () => {
+    if (!workoutName.trim()) {
+      Alert.alert("Error", "Please enter a workout name.");
+      return;
+    }
+
+    if (exercises.length === 0) {
+      Alert.alert("Error", "Please add at least one exercise.");
+      return;
+    }
+
+    const newWorkout = {
+      Date: new Date(),
+      TimeStarted: BigInt(Date.now()),
+      TimeEnded: BigInt(Date.now()), // Placeholder, can be updated later
+      Sets: exercises,
+      WorkoutComment: workoutComment,
+    };
+
+    console.log("Workout saved:", newWorkout);
+    Alert.alert("Success", "Workout saved successfully!");
+    router.back(); // Navigate back to the previous screen
   };
 
   return (
@@ -45,35 +82,58 @@ export default function AddWorkoutScreen() {
         <Text style={localStyles.subHeader}>Auto-repetition:</Text>
         <View style={localStyles.daysContainer}>
           {daysOfWeek.map((day) => (
-            <Pressable
+            <TouchableOpacity
               key={day}
               style={[
                 localStyles.dayButton,
                 selectedDays.includes(day) && localStyles.dayButtonSelected,
               ]}
               onPress={() => toggleDay(day)}
-              hitSlop={20}
             >
               <Text style={localStyles.dayText}>{day}</Text>
-            </Pressable>
+            </TouchableOpacity>
           ))}
         </View>
 
         {/* Add Exercise Section */}
         <Text style={localStyles.subHeader}>Exercises:</Text>
-        <Pressable
+        <TouchableOpacity
           style={localStyles.addExerciseButton}
-          onPress={() => router.push("/search")}
+          onPress={addExercise}
         >
           <Text style={localStyles.addExerciseText}>+ Add Exercise</Text>
-        </Pressable>
+        </TouchableOpacity>
+
+        {/* List of Added Exercises */}
+        {exercises.length > 0 &&
+          exercises.map((exercise, index) => (
+            <View key={index} style={localStyles.exerciseItem}>
+              <Text style={localStyles.exerciseText}>
+                {exercise.Exercise_Name}
+              </Text>
+              <Text style={localStyles.exerciseDetails}>
+                {exercise.Reps} reps - {exercise.Weight} lbs
+              </Text>
+            </View>
+          ))}
+
+        {/* Workout Comment */}
+        <Text style={localStyles.subHeader}>Workout Notes:</Text>
+        <TextInput
+          style={localStyles.commentInput}
+          placeholder="Add any notes..."
+          placeholderTextColor={colors.BUTTON_TEXT}
+          value={workoutComment}
+          onChangeText={setWorkoutComment}
+          multiline
+        />
       </ScrollView>
 
       {/* Save Workout Button */}
       <View style={localStyles.saveButtonContainer}>
-        <Pressable style={localStyles.saveButton}>
+        <TouchableOpacity style={localStyles.saveButton} onPress={saveWorkout}>
           <Text style={localStyles.saveButtonText}>Save Workout</Text>
-        </Pressable>
+        </TouchableOpacity>
       </View>
     </View>
   );
@@ -139,10 +199,33 @@ const localStyles = StyleSheet.create({
     alignItems: "center",
   },
   addExerciseText: {
-    textAlign: "center",
     fontSize: 18,
     fontWeight: "bold",
     color: colors.BUTTON_TEXT,
+  },
+  exerciseItem: {
+    padding: 10,
+    borderRadius: 8,
+    backgroundColor: colors.BUTTON_COLOR,
+    marginBottom: 10,
+    width: "100%",
+  },
+  exerciseText: {
+    fontSize: 16,
+    fontWeight: "bold",
+    color: colors.WHITE,
+  },
+  exerciseDetails: {
+    fontSize: 14,
+    color: colors.BUTTON_TEXT,
+  },
+  commentInput: {
+    width: "100%",
+    backgroundColor: colors.BUTTON_COLOR,
+    borderRadius: 10,
+    padding: 10,
+    color: colors.BUTTON_TEXT,
+    marginBottom: 15,
   },
   saveButtonContainer: {
     position: "absolute",
@@ -150,18 +233,16 @@ const localStyles = StyleSheet.create({
     left: 0,
     right: 0,
     padding: 10,
-    backgroundColor: colors.BACKGROUND_COLOR,
   },
   saveButton: {
-    backgroundColor: "#ff00ff",
-    padding: 15,
+    backgroundColor: colors.BUTTON_COLOR,
+    paddingVertical: 12,
     borderRadius: 10,
     alignItems: "center",
   },
   saveButtonText: {
     fontSize: 20,
     fontWeight: "bold",
-    textAlign: "center",
     color: colors.WHITE,
   },
 });
