@@ -15,7 +15,7 @@ const { width, height } = Dimensions.get("window");
 const CIRCLE_LENGTH = 400;
 const R = CIRCLE_LENGTH / (1.6 * Math.PI);
 
-type NavigationProps = NativeStackNavigationProp<RootStackParamList, 'index'>;
+type NavigationProps = NativeStackNavigationProp<RootStackParamList>;
 
 export default function Index() {
 

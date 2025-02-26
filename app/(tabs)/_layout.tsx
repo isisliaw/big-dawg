@@ -13,22 +13,17 @@ const logo = require("@/assets/images/logo.png");
 type NavigationProps = NativeStackNavigationProp<RootStackParamList>;
 
 export default function TabLayout() {
+  
   const [isModalVisible, setModalVisible] = useState(false);
   const navigation = useNavigation<NavigationProps>();
 
   const doPlusClick = () => {
     setModalVisible(true);
   };
-
+  
   const closeModal = () => {
     setModalVisible(false);
   };
-
-  const navigateTo = (route: keyof RootStackParamList) => {
-    navigation.navigate(route); // Navigate using the route parameter
-    closeModal();
-  };
-
   return (
       <>
         <Tabs
@@ -38,7 +33,7 @@ export default function TabLayout() {
               backgroundColor: colors.HEADER_COLOR,
             },
             headerShadowVisible: false,
-            header: ({ navigation, route, options }) => (
+            header: () => (
               <View style={styles.headerContainer}>
                 <View style={styles.header}>
                   <View style={styles.headerContent}>
@@ -55,7 +50,6 @@ export default function TabLayout() {
               overflow: "hidden",
               position: "absolute",
             },
-            tabBarHideOnKeyboard: true,
           }}
         >
           <Tabs.Screen
@@ -71,23 +65,15 @@ export default function TabLayout() {
             name="search"
             options={{
               tabBarIcon: ({ color, focused }) => (
-                <Ionicons name={focused ? "search-sharp" : "search-outline"} color={color} size={24} />
+                <Ionicons name={focused ? "search-sharp" : "search-outline"} color={color} size={24} style={{ marginRight: 10 }}/>
               ),
               title: 'Search',
+              tabBarItemStyle: {
+                marginRight: 35,
+              }
             }}
           />
-          {/* Custom "+" Button */}
-          <Tabs.Screen
-            name="plus"
-            options={{
-              tabBarButton: () => (
-                <Pressable style={styles.plusButton} onPress={doPlusClick}>
-                  <Ionicons name="add-circle" size={50} color="#5f067d" />
-                </Pressable>
-              ),
-              tabBarLabel: () => null,
-            }}
-          />
+  
           <Tabs.Screen
             name="calendar"
             options={{
@@ -95,13 +81,16 @@ export default function TabLayout() {
                 <Ionicons name={focused ? "calendar-sharp" : "calendar-outline"} size={24} color={color} />
               ),
               title: 'Calendar',
+              tabBarItemStyle: {
+                marginLeft: 35,
+              }
             }}
           />
           <Tabs.Screen
             name="WorkoutPreset"
             options={{
               tabBarIcon: ({ color, focused }) => (
-                <Ionicons name={focused ? "fitness-sharp" : "fitness-outline"} size={24} color={color} />
+                <Ionicons name={focused ? "fitness-sharp" : "fitness-outline"} size={24} color={color}  style={{ marginLeft: 10}}/>
               ),
               title: 'Presets'
             }}
@@ -109,24 +98,32 @@ export default function TabLayout() {
           <Tabs.Screen
             name='add-exercise'
             options={{
-              href: null,
-            }}
+              href:null,
+            }} 
           />
         </Tabs>
+
+        <View style={styles.plusButtonContainer}>
+          <Pressable style={styles.plusButton} onPress={doPlusClick}>
+            <Ionicons name="add-outline" size={55} color={colors.TAB_TINT_COLOR}/>
+          </Pressable>
+        </View>
+
+
   
         {/* Dropdown Menu Modal */}
         <Modal visible={isModalVisible} transparent animationType="fade">
           <View style={styles.modalOverlay}>
             <View style={styles.modalContent}>
               {/* Dropdown Buttons */}
-              <Pressable style={styles.modalButton} onPress={() => navigateTo('WorkoutPreset')}>
-                <Text style={styles.modalButtonText}>+ Choose workout preset</Text>
+              <Pressable style={styles.modalButton} onPress={() => { closeModal(); navigation.navigate('WorkoutPreset'); }}>
+                <Text style={styles.modalButtonText}>Choose workout preset</Text>
               </Pressable>
-              <Pressable style={styles.modalButton} onPress={() => console.log("New exercise")}>
-                <Text style={styles.modalButtonText}>+ New exercise</Text>
+              <Pressable style={styles.modalButton} onPress={() => console.log("add exercise")}>
+                <Text style={styles.modalButtonText}>New exercise</Text>
               </Pressable>
               <Pressable style={styles.modalButton} onPress={() => console.log("New timer")}>
-                <Text style={styles.modalButtonText}>+ New timer</Text>
+                <Text style={styles.modalButtonText}>New timer</Text>
               </Pressable>
   
               {/* Close Button */}
@@ -168,11 +165,20 @@ const styles = StyleSheet.create({
     color: "#4a0072",
     marginLeft: 12,
   },
-  plusButton: {
+  plusButtonContainer: {
     position: "absolute",
-    bottom: -10,
+    bottom: 40,
     alignSelf: "center",
     zIndex: 10,
+  },
+  plusButton: {
+    backgroundColor: colors.ACTIVE_TAB_TINT,
+    borderRadius: 35,
+    elevation: 5,
+    borderWidth: 3,
+    borderColor: colors.TAB_TINT_COLOR,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   modalOverlay: {
     flex: 1,
@@ -202,11 +208,11 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   closeButton: {
-    backgroundColor: '#d3d3d3', // Light gray background color
-    marginTop: 20,             // Add some space above the close button
+    backgroundColor: "#d3d3d3",
+    marginTop: 20,
   },
-  closeButtonText:{
-    opacity:1,                 // Set opacity to 1 to make the text fully visible
-    color: '#333',           // Dark text color for better readability
+  closeButtonText: {
+    opacity: 1,
+    color: "#333",
   },
 });
