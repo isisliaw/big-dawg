@@ -7,6 +7,7 @@ const colors = {
     HEADER_COLOR: '#1a002e',
     HEADER_TEXT: '#4a0072',
     WHITE: '#FFFFFF',
+    BLACK: '#000000',
     ACTIVE_BAR_COLOR: '#ff00ff',
     ACTIVE_BAR_SECOND_COLOR: '#ddabff',
     INACTIVE_BAR_COLOR: '#3a0055',
